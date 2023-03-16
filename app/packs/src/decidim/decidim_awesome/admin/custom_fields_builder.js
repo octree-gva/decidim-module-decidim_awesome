@@ -16,7 +16,7 @@ $(() => {
           location: "https://cdn.jsdelivr.net/npm/formbuilder-languages@1.1.0/"
         },
         formData: $(`input[name="config[proposal_custom_fields][${key}]"]`).val(),
-        disableFields: ["button", "file"],
+        disableFields: ["button"],
         disabledActionButtons: ["save", "data", "clear"],
         disabledAttrs: [
           "access",
@@ -28,6 +28,7 @@ $(() => {
           "textarea",
           "number",
           "date",
+          "file",
           "checkbox-group",
           "radio-group",
           "select",

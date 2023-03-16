@@ -54,7 +54,7 @@ export default class CustomFieldsRenderer { // eslint-disable-line no-unused-var
   * Creates an XML document with a subset of html-compatible dl/dd/dt elements
   * to store the custom fields answers
   */
-  dataToXML(data) {
+  async dataToXML(data) {
     const $dl = $("<dl/>");
     let $dd = null, 
         $div = null, 
@@ -73,12 +73,39 @@ export default class CustomFieldsRenderer { // eslint-disable-line no-unused-var
       if (data[key].type === "textarea" && data[key].subtype === "richtext") {
         data[key].userData = [$(`#${data[key].name}-input`).val()];
       }
+      if (data[key].type === "file") {
+        // upload the file, and set the value to the uploded file url.
+        const token = $('meta[name="csrf-token"]').attr("content");
+        const formData = new FormData();
+        const selectedFile = $(`#${data[key].name}`)[0].files[0];
+        if(!!selectedFile){
+          formData.append("image", $(`#${data[key].name}`)[0].files[0]);
+          await new Promise((resolve) => $.ajax({
+            url: DecidimAwesome.editor_uploader_path,
+            type: 'POST',
+            cache: false,
+            data: formData,
+            dataType: "json",
+            jsonp: false,
+            processData: false,
+            contentType: false,
+            async: false,
+            headers:{ "X-CSRF-Token": token },
+          }).done((resp) => {
+            const {url=""} = resp;
+            if(!url) return;
+            data[key].userData = [url];
+            resolve()
+          }));
+        }
+      }
+
       if (data[key].userData && data[key].userData.length) {
         $dt = $("<dt/>");
         $dt.text(data[key].label);
         $dt.attr("name", data[key].name);
         $dd = $("<dd/>");
-        // console.log("data for", key, data[key].name, data[key])
+        // console.log("data for", key, data[key].name, data[key].userData)
         for (val in data[key].userData) { // eslint-disable-line guard-for-in
           $div = $("<div/>");
           label = data[key].userData[val];
@@ -180,7 +207,7 @@ export default class CustomFieldsRenderer { // eslint-disable-line no-unused-var
   }
 
   // Saves xml to the hidden input
-  storeData() {
+  async storeData() {
     if (!this.$container) {
       return false;
     }
@@ -188,7 +215,8 @@ export default class CustomFieldsRenderer { // eslint-disable-line no-unused-var
     const $body = $form.find(`input[name="${this.$element.data("name")}"]`);
     if ($body.length && this.instance) {
       this.spec = this.instance.userData;
-      $body.val(this.dataToXML(this.spec));
+      const xmlData = await this.dataToXML(this.spec);
+      $body.val(xmlData);
       this.$element.data("spec", this.spec);
     }
     // console.log("storeData spec", this.spec, "$body", $body,"$form",$form,"this",this);

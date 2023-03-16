@@ -3,7 +3,7 @@
  */
 $(() => {
   // Event launched by foundation
-  $("[data-tabs]").on("change.zf.tabs", (event) => {
+  $("[data-tabs]").on("change.zf.tabs", async (event) => {
     const $container = $(event.target).closest(".label--tabs").next(".tabs-content").find(".tabs-panel.is-active");
     // fix inscrybmde if present
     let $input = $container.find('[name="faker-inscrybmde"]');
@@ -14,7 +14,7 @@ $(() => {
     $input = $container.find(".proposal_custom_field:first");
     if ($input.length > 0) {
       // saves current data to the hidden field for the lang
-      window.DecidimAwesome.CustomFieldsRenderer.storeData();
+      await window.DecidimAwesome.CustomFieldsRenderer.storeData();
       // init the current language
       window.DecidimAwesome.CustomFieldsRenderer.init($input);
     }

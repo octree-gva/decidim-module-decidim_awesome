@@ -10,10 +10,12 @@ $(() => {
   }
   window.DecidimAwesome.CustomFieldsRenderer.init($el);
 
-  window.DecidimAwesome.CustomFieldsRenderer.$container.closest("form").on("submit", (evt) => {
+  window.DecidimAwesome.CustomFieldsRenderer.$container.closest("form").on("submit", async function (evt) {
     if (evt.target.checkValidity()) {
-      // save current editor
-      window.DecidimAwesome.CustomFieldsRenderer.storeData();
+      evt.preventDefault();
+      const form = this;
+      await window.DecidimAwesome.CustomFieldsRenderer.storeData();
+      form.submit();
     } else {
       evt.preventDefault();
       evt.target.reportValidity();
