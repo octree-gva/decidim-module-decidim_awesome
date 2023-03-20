@@ -1,0 +1,26 @@
+.formBuilder__attachField{
+  &-preview {
+    text-overflow: ellipsis;
+    max-width: 210px;
+    white-space: nowrap;
+    display: inline-block;
+    overflow: hidden;
+  }
+  &-button {
+    display: block;
+    margin: 0 0.5rem;
+    padding: 0;
+    color: var(--alert);
+    float: right;
+    cursor: pointer;
+    &:hover{
+      text-decoration: underline;
+    }
+  }
+
+  &:after{
+    display: table;
+    width: 100%;
+    clear: both;
+  }
+}

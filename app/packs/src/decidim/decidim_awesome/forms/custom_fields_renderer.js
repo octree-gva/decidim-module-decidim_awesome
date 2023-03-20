@@ -1,6 +1,6 @@
 require("formBuilder/dist/form-render.min.js")
 import "src/decidim/decidim_awesome/forms/rich_text_plugin"
-
+import "src/decidim/decidim_awesome/forms/attach_file"
 export default class CustomFieldsRenderer { // eslint-disable-line no-unused-vars
   constructor(containerSelector) {
     this.containerSelector = containerSelector || ".proposal_custom_field:last";
@@ -73,13 +73,14 @@ export default class CustomFieldsRenderer { // eslint-disable-line no-unused-var
       if (data[key].type === "textarea" && data[key].subtype === "richtext") {
         data[key].userData = [$(`#${data[key].name}-input`).val()];
       }
-      if (data[key].type === "file") {
+      if (data[key].type === "attachFile") {
         // upload the file, and set the value to the uploded file url.
         const token = $('meta[name="csrf-token"]').attr("content");
         const formData = new FormData();
-        const selectedFile = $(`#${data[key].name}`)[0].files[0];
-        if(!!selectedFile){
-          formData.append("image", $(`#${data[key].name}`)[0].files[0]);
+        const needToUpload = $(`#${data[key].name} input[type='file']`)[0] && $(`#${data[key].name} input[type='file']`)[0].files[0]
+        if(!!needToUpload){
+          const selectedFile = $(`#${data[key].name} input[type='file']`)[0].files[0];
+          formData.append("image", selectedFile);
           await new Promise((resolve) => $.ajax({
             url: DecidimAwesome.editor_uploader_path,
             type: 'POST',
@@ -93,10 +94,16 @@ export default class CustomFieldsRenderer { // eslint-disable-line no-unused-var
             headers:{ "X-CSRF-Token": token },
           }).done((resp) => {
             const {url=""} = resp;
-            if(!url) return;
-            data[key].userData = [url];
+            if(!url){
+              data[key].userData = [];
+            }else {
+              data[key].userData = [url];
+            }
             resolve()
           }));
+        } else {
+          const value = $(`#${data[key].name}-input`).val();
+          data[key].userData = value ? [value] : [];
         }
       }
 

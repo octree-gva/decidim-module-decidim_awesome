@@ -1,5 +1,6 @@
 require("formBuilder/dist/form-builder.min.js")
 import "src/decidim/decidim_awesome/forms/rich_text_plugin"
+import "src/decidim/decidim_awesome/forms/attach_file"
 
 window.CustomFieldsBuilders = window.CustomFieldsBuilders || [];
 
@@ -16,7 +17,7 @@ $(() => {
           location: "https://cdn.jsdelivr.net/npm/formbuilder-languages@1.1.0/"
         },
         formData: $(`input[name="config[proposal_custom_fields][${key}]"]`).val(),
-        disableFields: ["button"],
+        disableFields: ["button", "file"],
         disabledActionButtons: ["save", "data", "clear"],
         disabledAttrs: [
           "access",
@@ -28,7 +29,7 @@ $(() => {
           "textarea",
           "number",
           "date",
-          "file",
+          "attachFile",
           "checkbox-group",
           "radio-group",
           "select",
