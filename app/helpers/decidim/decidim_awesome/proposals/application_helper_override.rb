@@ -21,7 +21,8 @@ module Decidim
 
             return decidim_text_editor_for_proposal_body(form) if custom_fields.blank?
 
-            render_proposal_custom_fields_override(custom_fields, form, :body)
+            custom_field_form = render_proposal_custom_fields_override(custom_fields, form, :body)
+            custom_field_form + render_proposal_custom_fields_override(awesome_private_proposal_custom_fields, form, :private_body)
           end
 
           # replace admin method to draw the editor (multi lang)
@@ -61,15 +62,25 @@ module Decidim
             custom_fields = Decidim::DecidimAwesome::CustomFields.new(fields)
             custom_fields.translate!
 
-            body = if form_presenter.proposal.body.is_a?(Hash) && locale
-                     form_presenter.body(extras: false, all_locales: true)[locale]
+            proposal_body = nil
+            if name == :private_body
+              proposal_body = form_presenter.private_body(extras: false, all_locales: locale.present?)
+            else
+              proposal_body = form_presenter.body(extras: false, all_locales: locale.present?)
+            end
+            body = if locale.present?
+                     proposal_body.with_indifferent_access[locale]
                    else
-                     form_presenter.body(extras: false)
+                     proposal_body
                    end
-
             custom_fields.apply_xml(body) if body.present?
             form.object.errors.add(name, custom_fields.errors) if custom_fields.errors
-            render partial: "decidim/decidim_awesome/custom_fields/form_render", locals: { spec: custom_fields.to_json, form: form, name: name }
+            is_new = form.options[:html][:method] == :post
+            if is_new && name == :private_body
+              render partial: "decidim/decidim_awesome/custom_fields/private_field_notice", locals: { fields: custom_fields.fields, name: name }
+            else
+              render partial: "decidim/decidim_awesome/custom_fields/form_render", locals: { spec: custom_fields.to_json, form: form, name: name }
+            end
           end
         end
       end

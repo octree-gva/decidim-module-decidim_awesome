@@ -1,4 +1,3 @@
-// = require lodash.throttle
 // = require_self
 
 if (!window.fbControls) window.fbControls = new Array();
@@ -73,18 +72,18 @@ window.fbControls.push(function (controlClass) {
         // Compute current lines
         const lines = (data.lines).map((line, index) => {
           const inputField = markup("input", undefined, {class: "formBuilder__budgetField-label", type: "text", name: `${name}-input[${index}][label]`, value: line.label || ""});
-          $(inputField).on('keyup', throttle(function(evt) {
+          $(inputField).on('keyup', function(evt) {
             const newValue = evt.target.value;
             line.label = newValue;
             $(`input[name="${name}"]`).val(JSON.stringify(data, null,2));
-          }, 250));
+          });
           handlers.push(inputField);
           const priceField = markup("input", undefined, {class: "input-group-field formBuilder__budgetField-price", required: true, type: "number", name: `${name}-input[${index}][label]`, value: line.price || ""});
-          $(priceField).on('keyup', throttle(function(evt) {
+          $(priceField).on('keyup', function(evt) {
             const newValue = evt.target.value;
             line.price = parseInt(newValue, 10);
             $(`input[name="${name}"]`).val(JSON.stringify(data, null,2));
-          }, 250));
+          });
 
           const removeLine = markup("button", "X", {class: "button small hollow formBuilder__budgetField-removeLine", "tabIndex": -1});
           $(removeLine).on('click', function(evt) {

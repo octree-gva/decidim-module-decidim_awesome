@@ -14,6 +14,7 @@ module Decidim
         attribute :auto_save_forms, Boolean
         attribute :scoped_styles, Hash
         attribute :proposal_custom_fields, Hash
+        attribute :private_proposal_custom_fields, Hash
         attribute :scoped_admins, Hash
         attribute :menu, Array[MenuForm]
         attribute :intergram_for_admins, Boolean
@@ -26,6 +27,7 @@ module Decidim
 
         validate :css_syntax, if: ->(form) { form.scoped_styles.present? }
         validate :json_syntax, if: ->(form) { form.proposal_custom_fields.present? }
+        validate :private_json_syntax, if: ->(form) { form.private_proposal_custom_fields.present? }
 
         # TODO: validate non general admins are here
 
@@ -57,12 +59,30 @@ module Decidim
             errors.add(key.to_sym, e.message)
           end
         end
-
+        def private_json_syntax
+          private_proposal_custom_fields.each do |key, code|
+            next unless code
+            JSON.parse(code)
+          rescue JSON::ParserError => e
+            errors.add(:scoped_styles, I18n.t("config.form.errors.incorrect_json", key: key, scope: "decidim.decidim_awesome.admin"))
+            errors.add(key.to_sym, e.message)
+          end
+        end
         # formBuilder has a bug and do not sanitize text if users copy/paste text with format in the label input
         def sanitize_labels!
-          return unless proposal_custom_fields
-
           proposal_custom_fields.transform_values! do |code|
+            next unless code
+
+            json = JSON.parse(code)
+            json.map! do |item|
+              item["label"] = strip_tags(item["label"])
+              item
+            end
+            JSON.generate(json)
+          rescue JSON::ParserError
+            code
+          end
+          private_proposal_custom_fields.transform_values! do |code|
             next unless code
 
             json = JSON.parse(code)

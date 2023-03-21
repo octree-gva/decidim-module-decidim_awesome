@@ -12,7 +12,7 @@ $(() => {
   $customFieldElements.each((index, element) => {
     if(index >= customFieldsRenderers.length) {
       const $element = $(element)
-      const renderer = new CustomFieldsRenderer(`#${$element.attr("id")}`)
+      const renderer = new CustomFieldsBuilder(`#${$element.attr("id")}`)
       customFieldsRenderers.push(renderer);
       renderer.init($element);
     }

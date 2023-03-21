@@ -1,6 +1,7 @@
 // = require_self
 
-let formBuilderList = formBuilderList || [];
+let CustomFieldsBuilders = window.CustomFieldsBuilders || {};
+
 let DecidimAwesome = DecidimAwesome || {};
 $(() => {
   $("body").on("click", "a.awesome-auto-edit", (e) => {
@@ -14,7 +15,9 @@ $(() => {
     const key = $target.data('key');
     const attribute = $target.data('var');
     const $hidden = $(`[name="config[${attribute}][${key}]"]`);
+    const $privateHidden = $(`[name="config[private_${attribute}][${key}]"]`);
     const $multiple = $(`[name="config[${attribute}][${key}][]"]`);
+    const $privateMultiple = $(`[name="config[private_${attribute}][${key}][]"]`);
     const $container = $(`.${attribute}_container[data-key="${key}"]`);
     const $delete = $('.delete-box', $container);
 
@@ -36,13 +39,16 @@ $(() => {
       $constraints.replaceWith(result.html);
       // update hidden input if exists
       $hidden.attr("name", `config[${attribute}][${result.key}]`);
+      $privateHidden.attr("name", `config[private_${attribute}][${result.key}]`);
       $multiple.attr("name", `config[${attribute}][${result.key}][]`);
+      $privateMultiple.attr("name", `config[private_${attribute}][${result.key}][]`);
       $container.data("key", result.key);
       $container.attr("data-key", result.key);
       $delete.attr("href", $delete.attr("href").replace(`key=${key}`, `key=${result.key}`))
-      formBuilderList.forEach((builder) => {
-        if(builder.key == key) {
-          builder.key = result.key;
+      Object.entries(CustomFieldsBuilders).map(([formKey, form]) => {
+        if (formKey === key) {
+          form.key = result.key;
+          form.input = form.input.replace(key, result.key)
         }
       });
     };
