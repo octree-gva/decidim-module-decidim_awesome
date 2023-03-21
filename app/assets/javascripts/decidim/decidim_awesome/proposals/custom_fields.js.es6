@@ -1,21 +1,36 @@
 // = require decidim/decidim_awesome/forms/custom_fields_builder
 // = require_self
 
-window.DecidimAwesome.FormRenderBuilder = window.DecidimAwesome.FormRenderBuilder || new CustomFieldsBuilder();
+const customFieldsRenderers = window.DecidimAwesome.CustomFieldsRenderer || []
 
 $(() => {
   // use admin multilang specs if exists
-  let $el = $("proposal_custom_field:first", ".tabs-title.is-active");
-  $el = $el.length ? $el : $(".proposal_custom_field:first");
-  DecidimAwesome.FormRenderBuilder.init($el);
-
-  DecidimAwesome.FormRenderBuilder.$container.closest("form").on("submit", (e) => {
-    if(e.target.checkValidity()) {
-      // save current editor
-      DecidimAwesome.FormRenderBuilder.storeData();
-    } else {
-      e.preventDefault();
-      e.target.reportValidity();
+  let $customFieldElements = $(".proposal_custom_field", ".tabs-title.is-active");
+  if (!$customFieldElements.length) {
+    $customFieldElements = $(".proposal_custom_field");
+  }
+  $customFieldElements.each((index, element) => {
+    if(index >= customFieldsRenderers.length) {
+      const $element = $(element)
+      const renderer = new CustomFieldsRenderer(`#${$element.attr("id")}`)
+      customFieldsRenderers.push(renderer);
+      renderer.init($element);
     }
-  });
+  })
+  if(customFieldsRenderers.length > 0){
+    customFieldsRenderers[0].$container.closest("form").on("submit", async function (evt) {
+        evt.preventDefault();
+        if (evt.target.checkValidity()) {
+          // save current editor
+          const form = this;
+          await Promise.all(customFieldsRenderers.map(renderer => renderer.storeData()))
+          form.submit();
+        } else {
+          evt.target.reportValidity();
+        }
+      });
+  }
 });
+
+
+window.DecidimAwesome.CustomFieldsRenderer = customFieldsRenderers;

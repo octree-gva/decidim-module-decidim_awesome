@@ -1,5 +1,7 @@
 // = require form-render.min
 // = require decidim/decidim_awesome/forms/rich_text_plugin
+// = require decidim/decidim_awesome/forms/budget_field
+// = require decidim/decidim_awesome/forms/attach_file
 
 class CustomFieldsBuilder { // eslint-disable-line no-unused-vars
   constructor(container_selector) {
@@ -54,7 +56,7 @@ class CustomFieldsBuilder { // eslint-disable-line no-unused-vars
   * Creates an XML document with a subset of html-compatible dl/dd/dt elements
   * to store the custom fields answers
   */
-  dataToXML(data) {
+  async dataToXML(data) {
     const doc = $.parseXML("<xml/>");
     const xml = doc.getElementsByTagName("xml")[0];
     const dl = doc.createElement("dl");
@@ -68,6 +70,39 @@ class CustomFieldsBuilder { // eslint-disable-line no-unused-vars
       // Richtext plugin does not saves userdata, so we get it from the hidden input
       if(data[key].type == "textarea" && data[key].subtype == "richtext") {
         data[key].userData = [$(`#${data[key].name}-input`).val()];
+      }
+      if (data[key].type === "attachFile") {
+        // upload the file, and set the value to the uploded file url.
+        const token = $('meta[name="csrf-token"]').attr("content");
+        const formData = new FormData();
+        const needToUpload = $(`#${data[key].name}-input`).attr("type") == "file" && $(`#${data[key].name}-input`)[0].files[0]
+        if(!!needToUpload){
+          const selectedFile = $(`#${data[key].name}-input`)[0].files[0];
+          formData.append("image", selectedFile);
+          await new Promise((resolve) => $.ajax({
+            url: DecidimAwesome.editor_uploader_path,
+            type: 'POST',
+            cache: false,
+            data: formData,
+            dataType: "json",
+            jsonp: false,
+            processData: false,
+            contentType: false,
+            async: false,
+            headers:{ "X-CSRF-Token": token },
+          }).done((resp) => {
+            const {url=""} = resp;
+            if(!url){
+              data[key].userData = [];
+            }else {
+              data[key].userData = [url];
+            }
+            setTimeout(resolve, 64);
+          }));
+        } else {
+          const value = $(`#${data[key].name}-input`).val();
+          data[key].userData = value ? [value] : [];
+        }
       }
       if (data[key].userData && data[key].userData.length) {
         dt = doc.createElement("dt");
@@ -93,10 +128,12 @@ class CustomFieldsBuilder { // eslint-disable-line no-unused-vars
             }
           }
             // console.log("userData", text, "label", label, 'key', key, 'data', data)
-          if(data[key].type == "textarea" && data[key].subtype == "richtext") {
-            $(div).html(label);
-          } else {
-            $(div).text(label);
+          if (data[key].type === "textarea" && data[key].subtype === "richtext") {
+            $div.html(label);
+          } else if(data[key].type === "budget") {
+            $div.html(window.renderBudget(label, data[key]))
+          }else{
+            $div.text(label);
           }
           if(text) {
             $(div).attr("alt", text);
@@ -175,33 +212,35 @@ class CustomFieldsBuilder { // eslint-disable-line no-unused-vars
   }
 
   // Saves xml to the hidden input
-  storeData() {
-    if(!this.$container) {
+  async storeData() {
+    if (!this.$container) {
+      console.error("No container found")
       return false;
     }
     const $form = this.$container.closest("form");
-    const $body = $form.find('input[name="' + this.$element.data("name") +'"]');
-    if($body.length && this.instance) {
+    const $body = $form.find(`input[name="${this.$element.data("name")}"]`);
+    if ($body.length && this.instance) {
       this.spec = this.instance.userData;
-      $body.val(this.dataToXML(this.spec));
+      const xmlData = await this.dataToXML(this.spec);
+      $body.val(xmlData);
       this.$element.data("spec", this.spec);
     }
-    // console.log("storeData", this.spec, "xml", $body.val());
+    // console.log("storeData spec", this.spec, "$body", $body,"$form",$form,"this",this);
+    return this;
   }
 
   init($element) {
     this.$element = $element;
     this.spec = $element.data("spec");
-    if(!this.$container) {
-      this.$container = $(this.container_selector);
+    if (!this.$container) {
+      this.$container = $(this.containerSelector);
     }
-    // console.log("init", $element, "data", data)
-    // TODO: save current data to the hidden field
+    // console.log("init", $element, "this", this)
     // always use the last field (in case of multilang tabs we only render one form due a limitation of the library to handle several instances)
     this.instance = this.$container.formRender({
       i18n: {
         locale: this.lang,
-        location: 'https://cdn.jsdelivr.net/npm/formbuilder-languages@1.1.0/'
+        location: "https://cdn.jsdelivr.net/npm/formbuilder-languages@1.1.0/"
       },
       formData: this.spec,
       render: true

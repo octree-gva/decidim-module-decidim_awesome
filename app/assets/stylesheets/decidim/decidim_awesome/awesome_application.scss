@@ -5,6 +5,9 @@
 @import "./editors/quill_editor";
 @import "./editors/markdown_editor";
 @import "./forms/autosave";
+@import "./forms/proposal_custom_field";
+@import "./forms/budget_field";
+@import "./forms/attach_field";
 
 .decidim_awesome-custom_fields{
   dd{
