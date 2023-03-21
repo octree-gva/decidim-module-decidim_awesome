@@ -1,5 +1,6 @@
 require("formBuilder/dist/form-render.min.js")
 import "src/decidim/decidim_awesome/forms/rich_text_plugin"
+import {renderBudget} from "src/decidim/decidim_awesome/forms/budget_field"
 
 export default class CustomFieldsRenderer { // eslint-disable-line no-unused-vars
   constructor(containerSelector) {
@@ -73,12 +74,13 @@ export default class CustomFieldsRenderer { // eslint-disable-line no-unused-var
       if (data[key].type === "textarea" && data[key].subtype === "richtext") {
         data[key].userData = [$(`#${data[key].name}-input`).val()];
       }
+
+      console.log({key, userData: data[key].userData})
       if (data[key].userData && data[key].userData.length) {
         $dt = $("<dt/>");
         $dt.text(data[key].label);
         $dt.attr("name", data[key].name);
         $dd = $("<dd/>");
-        // console.log("data for", key, data[key].name, data[key])
         for (val in data[key].userData) { // eslint-disable-line guard-for-in
           $div = $("<div/>");
           label = data[key].userData[val];
@@ -99,7 +101,9 @@ export default class CustomFieldsRenderer { // eslint-disable-line no-unused-var
           // console.log("userData", text, "label", label, 'key', key, 'data', data)
           if (data[key].type === "textarea" && data[key].subtype === "richtext") {
             $div.html(label);
-          } else {
+          } else if(data[key].type === "budget") {
+            $div.html(renderBudget(label, data[key]))
+          }else{
             $div.text(label);
           }
           if (text) {

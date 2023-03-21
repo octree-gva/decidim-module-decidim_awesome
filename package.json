@@ -29,7 +29,7 @@
   "homepage": "https://github.com/decidim-ice/decidim-module-decidim_awesome#readme",
   "stylelint": {
     "extends": "@decidim/stylelint-config",
-    "rules" : {
+    "rules": {
       "block-opening-brace-space-before": "always"
     }
   },
@@ -63,6 +63,7 @@
     "jquery-ui": "^1.13.0",
     "jsrender": "^1.0.9",
     "leaflet.featuregroup.subgroup": "^1.0.2",
+    "lodash.throttle": "^4.1.1",
     "select2": "^4.1.0-rc.0"
   }
 }
