@@ -4,17 +4,17 @@
   const $ = exports.$; // eslint-disable-line
 
   const sanitizeCenter = (string) => {
-    if(string) {
-      const parts = string.split(",")
+    if (string) {
+      const parts = string.split(",");
       if (parts.length >= 2) {
         const lat = parseFloat(parts[0]);
         const lng = parseFloat(parts[1]);
-        if(lat && lng) {
+        if (lat && lng) {
           return [lat, lng];
         }
       }
     }
-    return null
+    return null;
   };
   const options = () => {
     return {
@@ -24,9 +24,9 @@
       menu: {
         amendments: $("#awesome-map").data("menu-amendments"),
         meetings: $("#awesome-map").data("menu-meetings"),
-        hashtags: $("#awesome-map").data("menu-hashtags")
-      }
-    }
+        hashtags: $("#awesome-map").data("menu-hashtags"),
+      },
+    };
   };
 
   const truncate = (string) => {
@@ -39,8 +39,8 @@
       accepted: $("#awesome-map").data("show-accepted"),
       evaluating: $("#awesome-map").data("show-evaluating"),
       notAnswered: $("#awesome-map").data("show-not-answered"),
-      rejected: $("#awesome-map").data("show-rejected")
-    }
+      rejected: $("#awesome-map").data("show-rejected"),
+    };
   };
 
   const hideControls = () => $("#awesome-map").data("hide-controls");

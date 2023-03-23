@@ -35,13 +35,17 @@ $(() => {
       '[name="authenticity_token"]',
       "[disabled]",
       // there are problems with matrix questions
-      '[type="checkbox"]' 
-    ]
+      '[type="checkbox"]',
+    ],
   });
 
   const showMsg = (msg, error = false, defaultTime = 700) => {
     const time = error ? 5000 : defaultTime; // eslint-disable-line no-ternary, multiline-ternary
-    const $div = $(`<div class="awesome_autosave-notice${error ? " error" : ""}">${msg}</div>`).appendTo($form); // eslint-disable-line no-ternary, multiline-ternary
+    const $div = $(
+      `<div class="awesome_autosave-notice${
+        error ? " error" : ""
+      }">${msg}</div>`
+    ).appendTo($form); // eslint-disable-line no-ternary, multiline-ternary
     setTimeout(() => {
       $div.fadeOut(500, () => {
         $div.remove();
@@ -63,7 +67,8 @@ $(() => {
   // restore checkboxes
   try {
     let checkboxes = JSON.parse(window.localStorage.getItem(storeCheckboxesId));
-    for (let id in checkboxes) { // eslint-disable-line guard-for-in
+    for (let id in checkboxes) {
+      // eslint-disable-line guard-for-in
       $(`#${id}`).prop("checked", checkboxes[id]);
     }
   } catch (evt) {

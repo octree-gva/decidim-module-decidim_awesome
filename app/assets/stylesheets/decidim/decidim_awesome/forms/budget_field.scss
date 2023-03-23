@@ -9,24 +9,24 @@
     max-width: 56rem;
   }
   &-priceGroup {
-    max-width:144px;
+    max-width: 144px;
   }
-  &-addLine{
+  &-addLine {
     margin: 1rem auto 1.5rem 0;
     float: right;
     color: var(--secondary);
     cursor: pointer;
-    &:hover{
+    &:hover {
       opacity: 0.87;
       text-decoration: underline;
     }
   }
   &-cell {
     text-align: right;
-    &--label{
+    &--label {
       text-align: left;
     }
-    &--total{
+    &--total {
       border-top: 3px solid black;
       font-size: 1.1em;
     }

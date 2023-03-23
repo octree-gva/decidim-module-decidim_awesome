@@ -2,8 +2,8 @@
 @import "decidim/utils/settings";
 @import "decidim/utils/mixins";
 
-.editor-loading{
-  &::before{
+.editor-loading {
+  &::before {
     @include spinner(25px, $medium-gray, var(--primary), 800ms);
 
     float: right;
@@ -12,11 +12,11 @@
   }
 }
 
-.editor-container{
+.editor-container {
   overflow: hidden;
 }
 
-.editor.hashtags__container>p.help-text {
+.editor.hashtags__container > p.help-text {
   margin-top: -1rem;
   margin-bottom: 1.5rem;
 }

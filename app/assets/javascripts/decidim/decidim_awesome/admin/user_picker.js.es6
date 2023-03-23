@@ -2,7 +2,7 @@
 // = require_self
 
 $(() => {
-    $('select.multiusers-select').each(function() {
+  $("select.multiusers-select").each(function () {
     const url = $(this).attr("data-url");
     $(this).select2({
       ajax: {
@@ -11,14 +11,14 @@ $(() => {
         dataType: "json",
         processResults: (data) => {
           return {
-            results: data
-          }
-        }
+            results: data,
+          };
+        },
       },
       escapeMarkup: (markup) => markup,
       templateSelection: (item) => `${item.text}`,
       minimumInputLength: 1,
-      theme: "foundation"
+      theme: "foundation",
     });
   });
 });

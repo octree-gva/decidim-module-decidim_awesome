@@ -1,25 +1,25 @@
 .proposal_custom_field--private_body {
-  background-color: #DDD;
+  background-color: #ddd;
   border: 1px solid #999;
   border-radius: 3px;
   padding: 1rem 0.5rem;
   margin: 1rem 0;
 }
 
-.proposal_custom_field_notice{
-  &__header{
+.proposal_custom_field_notice {
+  &__header {
     margin-top: 1rem;
   }
-  &__content{
+  &__content {
     margin: 1rem 0;
   }
-  &__list{
+  &__list {
     display: flex;
     width: 100%;
     flex-wrap: wrap;
     gap: 0.5rem;
   }
-  dd{
+  dd {
     font-style: italic;
   }
 }

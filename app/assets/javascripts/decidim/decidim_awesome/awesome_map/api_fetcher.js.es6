@@ -1,4 +1,5 @@
-class ApiFetcher { // eslint-disable-line no-unused-vars
+class ApiFetcher {
+  // eslint-disable-line no-unused-vars
 
   constructor(query, variables) {
     this.query = query;
@@ -12,24 +13,25 @@ class ApiFetcher { // eslint-disable-line no-unused-vars
       contentType: "application/json",
       data: JSON.stringify({
         query: this.query,
-        variables: this.variables
-      })
-    }).done(function(data) {
+        variables: this.variables,
+      }),
+    }).done(function (data) {
       callback(data.data);
     });
   }
 
-  fetchAll (callback) {
+  fetchAll(callback) {
     this.fetch(callback);
   }
 
   static findTranslation(translations) {
-    let text, lang = document.querySelector('html').getAttribute('lang');
-    
+    let text,
+      lang = document.querySelector("html").getAttribute("lang");
+
     translations.forEach((t) => {
-      if(t.text) {
-        if(!text || t.locale == lang) {
-          text = t.text
+      if (t.text) {
+        if (!text || t.locale == lang) {
+          text = t.text;
         }
       }
     });

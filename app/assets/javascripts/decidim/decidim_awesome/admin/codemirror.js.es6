@@ -4,11 +4,13 @@
 // = require_self
 
 $(() => {
-  $(".awesome-edit-config .scoped_styles_container textarea").each((_idx, el) => {
-    CodeMirror.fromTextArea(el, {
-      lineNumbers: true,
-      mode: "css",
-      keymap: "sublime"
-    });
-  })
+  $(".awesome-edit-config .scoped_styles_container textarea").each(
+    (_idx, el) => {
+      CodeMirror.fromTextArea(el, {
+        lineNumbers: true,
+        mode: "css",
+        keymap: "sublime",
+      });
+    }
+  );
 });

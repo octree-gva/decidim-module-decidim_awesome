@@ -1,28 +1,30 @@
 @import "select2";
 @import "select2-foundation-theme";
 
-.multiusers-select-container{
-  form label{
+.multiusers-select-container {
+  form label {
     margin-bottom: 1rem;
   }
 
-  .switch-paddle{
+  .switch-paddle {
     display: inline-block;
     vertical-align: middle;
     margin-right: 1em;
   }
 }
 
-.select2-container--foundation .select2-selection--multiple .select2-selection__choice{
+.select2-container--foundation
+  .select2-selection--multiple
+  .select2-selection__choice {
   display: inline-block;
   float: none;
   font-weight: normal;
 
-  .is-admin{
-    &::before{
-      content: '⛔';
+  .is-admin {
+    &::before {
+      content: "⛔";
       display: inline-block;
-      margin-right: .3em;
+      margin-right: 0.3em;
     }
 
     text-decoration: line-through;
@@ -30,6 +32,6 @@
   }
 }
 
-.form-conversations-submit{
+.form-conversations-submit {
   margin-top: 2rem;
 }

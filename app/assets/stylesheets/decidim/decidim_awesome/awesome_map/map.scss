@@ -1,74 +1,74 @@
 @import "decidim/decidim_awesome/awesome_map/leaflet";
 
 // Increase z-index for components menu otherwise map hides menu extensions
-.dropdown-pane{
+.dropdown-pane {
   z-index: 1000;
 }
 // Override padding in this component
-.wrapper{
+.wrapper {
   padding: 0;
 
-  .callout.announcement{
+  .callout.announcement {
     margin-top: 2rem;
   }
 
-  .google-map{
+  .google-map {
     margin-bottom: 0;
   }
 
-  .leaflet-control-layers-list{
-    hr{
-      margin: .5em 0;
+  .leaflet-control-layers-list {
+    hr {
+      margin: 0.5em 0;
     }
 
-    b{
+    b {
       margin: 1em 0;
       display: block;
     }
 
-    label{
+    label {
       line-height: 1;
-      font-size: .8rem;
-      margin: 0 0 .5em;
+      font-size: 0.8rem;
+      margin: 0 0 0.5em;
 
-      i{
+      i {
         display: inline-block;
-        width: .8rem;
-        height: .8rem;
+        width: 0.8rem;
+        height: 0.8rem;
         background-color: var(--primary);
       }
     }
 
-    input{
+    input {
       margin: 0;
     }
   }
 
-  #map{
+  #map {
     height: 700px;
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
 
-    .leaflet-marker-icon.svg-icon svg path{
-      filter: drop-shadow(3px 3px 2px rgba(0, 0, 0, .7));
+    .leaflet-marker-icon.svg-icon svg path {
+      filter: drop-shadow(3px 3px 2px rgba(0, 0, 0, 0.7));
     }
   }
 
-  .map-legend{
-    background: rgba(255, 255, 255, .8);
+  .map-legend {
+    background: rgba(255, 255, 255, 0.8);
     padding: 1em;
     border: 2px solid #bbb;
     border-radius: 4px;
   }
 
-  .awesome_map-title-control{
+  .awesome_map-title-control {
     display: block;
     cursor: pointer;
 
-    &::after{
-      content: '';
+    &::after {
+      content: "";
       width: 0;
       height: 0;
       border-left: 5px solid transparent;
@@ -80,78 +80,78 @@
     }
   }
 
-  .active{
-    .awesome_map-title-control::after{
+  .active {
+    .awesome_map-title-control::after {
       border-top: 0;
       border-bottom: 5px solid black;
     }
   }
 
-  #awesome_map-{
-    &categories-control{
+  #awesome_map- {
+    &categories-control {
       display: none;
 
-      label{
-        margin-left: .5rem;
+      label {
+        margin-left: 0.5rem;
         display: none;
 
-        i{
+        i {
           display: inline-block;
-          width: .8rem;
-          height: .8rem;
+          width: 0.8rem;
+          height: 0.8rem;
           border-radius: 50%;
           background-color: var(-- primary);
         }
 
-        &.subcategory{
+        &.subcategory {
           padding-left: 1em;
         }
       }
 
-      .categories-container{
+      .categories-container {
         display: none;
       }
 
-      &.active{
-        .categories-container{
+      &.active {
+        .categories-container {
           display: block;
         }
       }
     }
 
-    &hashtags-control{
+    &hashtags-control {
       display: none;
 
-      label{
+      label {
         display: inline-block;
         line-height: 1;
         background-color: #f0f0f0;
         border-radius: 5px;
-        margin: .5rem;
-        padding: .5rem;
+        margin: 0.5rem;
+        padding: 0.5rem;
 
-        span{
-          margin: 0 .5rem 2px 0;
+        span {
+          margin: 0 0.5rem 2px 0;
         }
 
-        input{
+        input {
           vertical-align: top;
         }
       }
 
-      .awesome_map-toggle_all_tags{
-        margin: .5rem 1rem;
-        font-size: .875rem;
+      .awesome_map-toggle_all_tags {
+        margin: 0.5rem 1rem;
+        font-size: 0.875rem;
       }
 
       .hashtags-container,
-      .awesome_map-toggle_all_tags{
+      .awesome_map-toggle_all_tags {
         display: none;
       }
 
-      &.active{
+      &.active {
         .hashtags-container,
-        .awesome_map-toggle_all_tags{
+        .awesome_map-toggle_all_tags {
           display: block;
         }
       }

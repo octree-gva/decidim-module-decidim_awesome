@@ -9,14 +9,14 @@
 @import "./forms/budget_field";
 @import "./forms/attach_field";
 
-.decidim_awesome-custom_fields{
-  dd{
-    >div:last-child{
+.decidim_awesome-custom_fields {
+  dd {
+    > div:last-child {
       margin-bottom: 1rem;
     }
 
-    &[name="textarea"]{
-      >div > p{
+    &[name="textarea"] {
+      > div > p {
         margin-top: 1rem;
         margin-bottom: 0;
       }

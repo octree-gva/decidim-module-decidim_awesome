@@ -6,7 +6,10 @@ const customFieldRenderers = window.DecidimAwesome.CustomFieldsRenderer || [];
 $(() => {
   // Event launched by foundation
   $("[data-tabs]").on("change.zf.tabs", async (event) => {
-    const $container = $(event.target).closest(".label--tabs").next(".tabs-content").find(".tabs-panel.is-active");
+    const $container = $(event.target)
+      .closest(".label--tabs")
+      .next(".tabs-content")
+      .find(".tabs-panel.is-active");
     // fix inscrybemde if present
     let $input = $container.find('[name="faker-inscrybmde"]');
     if ($input.length > 0) {
@@ -15,12 +18,12 @@ $(() => {
     // fix custom fields if present
     $inputs = $container.find(".proposal_custom_field");
     if ($inputs.length > 0) {
-      customFieldRenderers.forEach(r => r.storeData());
+      customFieldRenderers.forEach((r) => r.storeData());
       $inputs.each((input, index) => {
         // saves current data to the hidden field for the lang
         // init the current language
-        customFieldRenderers[index].init($(input))
-      })
+        customFieldRenderers[index].init($(input));
+      });
     }
   });
 });
