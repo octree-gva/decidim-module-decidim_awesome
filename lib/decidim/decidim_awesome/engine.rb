@@ -14,6 +14,7 @@ module Decidim
 
       routes do
         post :editor_images, to: "editor_images#create"
+        post :editor_files, to: "editor_files#create"
       end
 
       initializer "decidim.middleware" do |app|
