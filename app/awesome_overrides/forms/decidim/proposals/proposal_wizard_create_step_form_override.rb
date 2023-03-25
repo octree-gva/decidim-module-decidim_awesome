@@ -5,9 +5,9 @@ Decidim::Proposals::ProposalWizardCreateStepForm.class_eval do
   clear_validators!
   attribute :private_body, Decidim::Attributes::CleanString
 
-  validates :title, presence: true, etiquette: true
-  validates :title, length: { in: 15..80 }
-  validates :body, presence: true, etiquette: true, unless: ->(form) { form.override_validations? }
+  validates :title, presence: true
+  validates :title, length: { in: 3..80 }
+  validates :body, presence: true, unless: ->(form) { form.override_validations? }
   validates :body, proposal_length: {
     minimum: 5,
     maximum: ->(record) { record.override_validations? ? 0 : record.component.settings.proposal_length }
@@ -20,6 +20,7 @@ Decidim::Proposals::ProposalWizardCreateStepForm.class_eval do
 
     custom_fields.present?
   end
+  
   def map_model(model)
     self.title = translated_attribute(model.title)
     self.body = translated_attribute(model.body)
