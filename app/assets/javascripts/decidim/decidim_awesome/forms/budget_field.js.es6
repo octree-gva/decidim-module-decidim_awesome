@@ -3,11 +3,11 @@
 if (!window.fbControls) window.fbControls = new Array();
 
 const defaultConfig = {
-  currency: "€",
-  labelPlaceholder: "Material",
+  currency: "CHF",
+  labelPlaceholder: "Matériel",
   pricePlaceholder: "150",
-  addLineLabel: "+ new line",
-  totalLabel: "Total: "
+  addLineLabel: "+ ajouter une ligne",
+  totalLabel: "Montant total du budget: "
 }
 window.fbControls.push(function (controlClass) {
   /**
