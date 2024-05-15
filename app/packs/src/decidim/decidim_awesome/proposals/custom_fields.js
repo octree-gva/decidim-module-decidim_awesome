@@ -14,19 +14,19 @@ $(() => {
       const renderer = new CustomFieldsRenderer(`#${$element.attr("id")}`)
       customFieldsRenderers.push(renderer);
       renderer.init($element);
-      console.log("add", index)
     }
   })
 
   if(customFieldsRenderers.length > 0){
-    customFieldsRenderers[0].$container.closest("form").on("submit", (evt) => {
+    customFieldsRenderers[0].$container.closest("form").on("submit", async (evt) => {
+        evt.preventDefault();
         if (evt.target.checkValidity()) {
           // save current editor
-          customFieldsRenderers.forEach(renderer => {
-            renderer.storeData()
-          })
+          await Promise.all(customFieldsRenderers.map(async (renderer) => {
+            await renderer.storeData()
+          }))
+          evt.target.submit();
         } else {
-          evt.preventDefault();
           evt.target.reportValidity();
         }
       });

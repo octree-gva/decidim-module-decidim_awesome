@@ -1,0 +1,29 @@
+.formBuilder__attachFile{
+    &-preview {
+      text-overflow: ellipsis;
+      max-width: 210px;
+      white-space: nowrap;
+      display: inline-block;
+      overflow: hidden;
+    }
+    &-button {
+      display: block;
+      margin: 0 0.5rem;
+      padding: 0;
+      color: var(--alert);
+      float: right;
+      cursor: pointer;
+      &:hover{
+        opacity: 0.87;
+      }
+    }
+    &-icon {
+      width: 1.5em;
+    }
+  
+    &:after{
+      display: table;
+      width: 100%;
+      clear: both;
+    }
+  }

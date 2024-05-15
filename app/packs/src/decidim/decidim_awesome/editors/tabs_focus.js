@@ -15,13 +15,13 @@ $(() => {
     // fix custom fields if present
     $inputs = $container.find(".proposal_custom_field");
     if ($inputs.length > 0) {
-      customFieldRenderers.forEach(r => r.storeData());
-      $inputs.each((input, index) => {
-        // saves current data to the hidden field for the lang
-        // init the current language
-        customFieldRenderers[index].init($(input))
+      Promise.all(customFieldRenderers.map(r => r.storeData())).then(() => {
+        $inputs.each((input, index) => {
+          // saves current data to the hidden field for the lang
+          // init the current language
+          customFieldRenderers[index].init($(input))
+        })
       })
-     
     }
   });
 });
