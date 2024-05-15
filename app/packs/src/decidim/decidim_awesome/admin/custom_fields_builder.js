@@ -1,5 +1,6 @@
 require("formBuilder/dist/form-builder.min.js")
 import "src/decidim/decidim_awesome/forms/rich_text_plugin"
+import "src/decidim/decidim_awesome/forms/attach_file"
 
 let CustomFieldsBuilders = window.CustomFieldsBuilders || {}
 window.CustomFieldsBuilders = CustomFieldsBuilders;

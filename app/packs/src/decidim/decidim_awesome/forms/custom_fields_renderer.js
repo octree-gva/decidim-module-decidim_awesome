@@ -83,9 +83,9 @@ export default class CustomFieldsRenderer { // eslint-disable-line no-unused-var
         const needToUpload = $(`#${data[key].name}-input`).attr("type") == "file" && $(`#${data[key].name}-input`)[0].files[0]
         if(!!needToUpload){
           const selectedFile = $(`#${data[key].name}-input`)[0].files[0];
-          formData.append("image", selectedFile);
+          formData.append("file", selectedFile);
           await new Promise((resolve) => $.ajax({
-            url: DecidimAwesome.editor_uploader_path,
+            url: DecidimAwesome.editor_file_uploader_path,
             type: 'POST',
             cache: false,
             data: formData,
