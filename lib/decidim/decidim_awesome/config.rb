@@ -121,7 +121,7 @@ module Decidim
       # by default filtered according to the current scope, a block can be passed for custom filtering
       # ie, collect everything:
       #    collect_sub_configs_values("scoped_style") { true }
-      def collect_sub_configs_values(singular_key)
+      def collect_sub_configs(singular_key)
         plural_key = singular_key.pluralize.to_sym
         return [] unless config[plural_key].respond_to?(:filter)
 
@@ -134,7 +134,11 @@ module Decidim
             valid_in_context?(subconfig&.all_constraints)
           end
         end
-        fields.values
+        fields
+      end
+      
+      def collect_sub_configs_values(singular_key)
+        collect_sub_configs(singular_key).values
       end
 
       def sub_configs_for(singular_key)
