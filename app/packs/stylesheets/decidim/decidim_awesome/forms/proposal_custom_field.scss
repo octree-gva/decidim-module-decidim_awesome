@@ -6,6 +6,10 @@
   margin: 1rem 0;
 }
 
+.proposal_custom_field--empty {
+  display: none;
+}
+
 .proposal_custom_field_notice{
   &__header{
     margin-top: 1rem;

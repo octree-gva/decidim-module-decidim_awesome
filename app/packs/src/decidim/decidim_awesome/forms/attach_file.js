@@ -1,3 +1,6 @@
+export const register = () => {
+
+
 if (!window.fbControls) window.fbControls = new Array();
 window.fbControls.push(function (controlClass) {
   /**
@@ -49,3 +52,4 @@ window.fbControls.push(function (controlClass) {
   controlClass.register('attachFile', controlAttachFile);
   return controlAttachFile;
 });
+}

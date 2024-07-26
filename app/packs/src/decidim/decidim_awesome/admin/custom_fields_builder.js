@@ -1,12 +1,18 @@
 require("formBuilder/dist/form-builder.min.js")
-import "src/decidim/decidim_awesome/forms/rich_text_plugin"
-import "src/decidim/decidim_awesome/forms/attach_file"
+import {register as registerRichTextPlugin} from "src/decidim/decidim_awesome/forms/rich_text_plugin"
+import {register as registerAttachFilePlugin} from "src/decidim/decidim_awesome/forms/attach_file"
+import {register as registerBudgetField} from "src/decidim/decidim_awesome/forms/budget_field"
 
 let CustomFieldsBuilders = window.CustomFieldsBuilders || {}
 window.CustomFieldsBuilders = CustomFieldsBuilders;
 
 $(() => {
+  registerRichTextPlugin();
+  registerAttachFilePlugin();
+  registerBudgetField();
+
   $(".awesome-edit-config .proposal_custom_fields_container").each((_idx, el) => {
+    
     const $container = $(el);
     const key = $container.data("key");
     $container.find(".proposal_custom_fields_editor").each((idx, editor) => {

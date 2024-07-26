@@ -1,6 +1,3 @@
-require("formBuilder/dist/form-render.min.js")
-import "src/decidim/decidim_awesome/forms/rich_text_plugin"
-import "src/decidim/decidim_awesome/forms/attach_file"
 import {renderBudget} from "src/decidim/decidim_awesome/forms/budget_field"
 
 export default class CustomFieldsRenderer { // eslint-disable-line no-unused-vars
