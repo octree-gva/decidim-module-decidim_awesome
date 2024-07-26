@@ -11,18 +11,38 @@ jQuery(($) => {
   registerRichTextPlugin();
   registerAttachFilePlugin();
   registerBudgetField();
+  console.log("awesome::customfield: Form render ready")
   // use admin multilang specs if exists
   let $customFieldElements = $(".proposal_custom_field", ".tabs-title.is-active");
   if (!$customFieldElements.length) {
+    console.warn("awesome::customfield: fallback: get .proposal_custom_field")
     $customFieldElements = $(".proposal_custom_field");
   }
+  const initFunctions = [];
   $customFieldElements.each((index, element) => {
-    if(index >= customFieldsRenderers.length) {
-      const $element = $(element)
-      const renderer = new CustomFieldsRenderer(`#${$element.attr("id")}`)
-      customFieldsRenderers.push(renderer);
-      renderer.init($element);
+    console.log(`awesome::customfield: ${index}: mount renderer #${$(element).attr("id")}`)
+    const $element = $(element)
+    if($element.hasClass("proposal_custom_field--empty")){
+      console.warn(`awesome::customfield: skip empty #${$(element).attr("id")}`)
+      return;
     }
+    const renderer = new CustomFieldsRenderer(`#${$element.attr("id")}`)
+    customFieldsRenderers.push(renderer);
+    initFunctions.push(() => renderer.init($element));
+  })
+  console.log(`awesome::customfield: initializing ${initFunctions.length} forms `)
+  Promise.all(
+    initFunctions.map((func) => {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          func();
+          resolve();
+        }, 64)
+      })
+    })
+  ).then(() => {
+    console.log(`awesome::customfield: form initialized `)
+
   })
 
   if(customFieldsRenderers.length > 0){
@@ -39,7 +59,7 @@ jQuery(($) => {
         }
       });
   }
+  window.DecidimAwesome.CustomFieldsRenderer = customFieldsRenderers;
 });
 
 
-window.DecidimAwesome.CustomFieldsRenderer = customFieldsRenderers;

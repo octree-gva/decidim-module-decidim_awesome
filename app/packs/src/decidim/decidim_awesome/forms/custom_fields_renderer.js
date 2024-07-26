@@ -4,6 +4,7 @@ export default class CustomFieldsRenderer { // eslint-disable-line no-unused-var
   constructor(containerSelector) {
     this.containerSelector = containerSelector || ".proposal_custom_field:last";
     this.lang = this.getLang(window.DecidimAwesome.currentLocale);
+    this.$container = $(this.containerSelector)
   }
 
   getLang(lang) {
